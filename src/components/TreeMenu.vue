@@ -14,8 +14,8 @@
             <el-icon><location /></el-icon>
             <span>fabric</span>
           </template>
-          <el-menu-item index="demo1">demo1</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
+          <el-menu-item index="demo1">常用基础绘画</el-menu-item>
+          <el-menu-item index="demo2">事件</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="2">
           <el-icon><icon-menu /></el-icon>
@@ -39,13 +39,13 @@ import { Document, Menu as IconMenu, Location, Setting } from '@element-plus/ico
 import { useRouter } from 'vue-router'
 const $router = useRouter()
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
 }
 const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
 }
 const selectHandle = (key, keyPath) => {
-  console.log(key, keyPath)
+  // console.log(key, keyPath)
   $router.push({
     name: key
   })
