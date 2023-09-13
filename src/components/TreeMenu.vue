@@ -16,10 +16,11 @@
           </template>
           <el-menu-item index="demo1">常用基础绘画</el-menu-item>
           <el-menu-item index="demo2">事件</el-menu-item>
+          <el-menu-item index="demo3">stickman</el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="2">
+        <el-menu-item index="demo4">
           <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
+          <span>画板</span>
         </el-menu-item>
         <el-menu-item index="3" disabled>
           <el-icon><document /></el-icon>

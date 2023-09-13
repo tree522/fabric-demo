@@ -28,10 +28,6 @@ import TreeMenu from './components/TreeMenu.vue'
     flex: 1;
     width: 100%;
     min-height: 100vh;
-    margin-top: 65px;
-    border: 1px solid var(--el-menu-border-color);
-    border-left: 0;
-    border-bottom: 0;
   }
 }
 </style>
