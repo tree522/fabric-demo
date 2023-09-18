@@ -45,6 +45,7 @@
         </el-upload>
       </div>
       <div class="item" @click="configBtn">设置</div>
+      <div class="item" @click="handleFn('mosaic')">马赛克</div>
       <!-- 下载图片 -->
       <a href="" ref="savePng" style="display: none" v-if="aShow"></a>
     </div>
@@ -61,6 +62,8 @@ const goHome = () => {
 }
 
 let canvas = reactive({})
+let canvasElement = reactive({})
+let ctx = reactive({})
 
 onMounted(() => {
   init()
@@ -100,7 +103,14 @@ const init = () => {
   fabric.Object.prototype.transparentCorners = false
   fabric.Object.prototype.padding = 10
 
+  initCanvasElement()
+
   initEvent()
+}
+
+const initCanvasElement = () => {
+  canvasElement = document.getElementById('c')
+  ctx = canvasElement.getContext('2d')
 }
 
 const initEvent = () => {
@@ -265,7 +275,22 @@ const beforeUploadType = (file) => {
 }
 
 const patternFun = (e) => {
-  let rectW, rectH, path, circleX, circleY, circleTop, circleLeft, rx, ry, top, left, triangleHeight
+  console.log('---', patternClass.value)
+  let rectW,
+    rectH,
+    path,
+    circleX,
+    circleY,
+    circleTop,
+    circleLeft,
+    rx,
+    ry,
+    top,
+    left,
+    triangleHeight,
+    x,
+    y,
+    px
 
   if (patternClass.value) {
     switch (handleType.value) {
@@ -346,6 +371,11 @@ const patternFun = (e) => {
         patternClass.value.set('top', Math.min(e.absolutePointer.y, downPoint.y))
         patternClass.value.set('left', Math.min(e.absolutePointer.x, downPoint.x))
         // 刷新一下画布
+        canvas.requestRenderAll()
+        break
+      case 'mosaic':
+        px = ctx.getImageData(lastPosX.value, lastPosY.value, 1, 1).data
+        console.log(`red:${px[0]} green:${px[1]} blue:${px[2]} alpha:${px[3]}`)
         canvas.requestRenderAll()
         break
     }
@@ -444,7 +474,6 @@ const drawing = () => {
       })
       canvas.add(patternClass.value)
       break
-
     case 'rect':
       patternClass.value = new fabric.Rect({
         top: downPoint.y, //创建对象的坐标
@@ -472,6 +501,18 @@ const drawing = () => {
       textObj.value = patternClass.value
       patternClass.value.enterEditing()
       break
+    case 'mosaic':
+      patternClass.value = new fabric.Rect({
+        top: downPoint.y, //创建对象的坐标
+        left: downPoint.x,
+        width: 5, //宽和高
+        height: 5,
+        fill: 'transparent', //填充颜色
+        stroke: borderColor.value, //线条颜色
+        strokeWidth: borderWidth.value //线条宽度
+      })
+      canvas.add(patternClass.value)
+      break
   }
 }
 
@@ -491,7 +532,7 @@ const backBtn = () => {
 const nextBtn = () => {
   //将删除的元素在压入栈顶
   if (nextStack.length == 0) return
-  console.log(nextStack)
+  // console.log(nextStack)
   //将最后元素添加在画布中
   let nextObj = nextStack[nextStack.length - 1]
   canvas.add(nextObj)
